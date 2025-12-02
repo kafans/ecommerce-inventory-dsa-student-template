@@ -1,4 +1,3 @@
-
 package edu.template.inventory.ds;
 
 import java.util.Arrays;
@@ -14,6 +13,7 @@ public final class Sorting {
 
         for (int i = 0; i < n - 1; i++) {
             int minIndex = i;
+            // Find the index of the minimum element in the unsorted portion
             for (int j = i + 1; j < n; j++) {
 
                 if (cmp.compare(a[j], a[minIndex]) < 0) {
@@ -21,6 +21,7 @@ public final class Sorting {
                 }
             }
 
+            // Swap the found minimum element with the first unsorted element
             T temp = a[i];
             a[i] = a[minIndex];
             a[minIndex] = temp;
@@ -36,21 +37,27 @@ public final class Sorting {
         if (left >= right) return;
 
         int mid = left + (right - left) / 2;
+        // Recursively sort the left and right halves
         mergeSortRecursive(a, left, mid, cmp);          // [left, mid]
         mergeSortRecursive(a, mid + 1, right, cmp); // [mid+1, right]
+
+        // Merge the two sorted halves
         merge(a, left, mid, right, cmp);
     }
 
     private static <T> void merge(T[] a, int left, int mid, int right, Comparator<? super T> cmp) {
         int length = right - left + 1;
 
+        // Create a temporary array to hold merged results
+        // Using Arrays.copyOf to safely create a generic array of the same type as 'a'
         T[] tmp = Arrays.copyOf(a, length);
 
         int i = left, j = mid + 1, k = 0;
 
+        // Compare elements from both halves and copy the smaller one to tmp
         while (i <= mid && j <= right) {
             int compareResult = cmp.compare(a[i], a[j]);
-            
+
             if (compareResult <= 0) {
                 tmp[k] = a[i];
                 i = i + 1;
@@ -62,9 +69,12 @@ public final class Sorting {
             k = k + 1;
         }
 
+        // Copy remaining elements from the left half, if any
         while (i <= mid) tmp[k++] = a[i++];
+        // Copy remaining elements from the right half, if any
         while (j <= right) tmp[k++] = a[j++];
 
+        // Copy the sorted elements from tmp back to the original array
         for (k = 0; k < length; k++) {
             a[left + k] = tmp[k];
         }
@@ -82,13 +92,16 @@ public final class Sorting {
             return;
         }
 
+        // Select the last element as the pivot
         T pivot = a[high];
 
         int i = low;
 
+        // Partition: move elements smaller than or equal to pivot to the left
         for (int j = low; j < high; j++) {
             if (cmp.compare(a[j], pivot) <= 0) {
                 if (i != j) {
+                    // Swap a[i] and a[j]
                     T temp = a[i];
                     a[i] = a[j];
                     a[j] = temp;
@@ -97,13 +110,15 @@ public final class Sorting {
             }
         }
 
+        // Place the pivot in its correct sorted position
         if (i != high) {
             T temp = a[i];
             a[i] = a[high];
             a[high] = temp;
         }
-        quickSortRecursive(a, low, i - 1, cmp);
 
-        quickSortRecursive(a, i + 1, high, cmp);
+        // Recursively sort the sub-arrays before and after the pivot
+        quickSortRecursive(a, low, i - 1, cmp); // Left side
+        quickSortRecursive(a, i + 1, high, cmp); // Right side
     }
 }

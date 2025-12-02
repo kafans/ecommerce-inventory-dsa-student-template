@@ -1,4 +1,3 @@
-
 package edu.template.inventory.ds;
 
 import java.util.Iterator;
@@ -16,6 +15,7 @@ public class SinglyLinkedList<T> implements Iterable<T> {
     }
 
     public SinglyLinkedList() {
+        // Initialize with a sentinel (dummy) node to simplify head operations
         sentinel = new Node<>(null, null);
         size = 0;
     }
@@ -32,6 +32,7 @@ public class SinglyLinkedList<T> implements Iterable<T> {
     public boolean isEmpty() {return size == 0;}
 
     public void addFirst(T item) {
+        // Insert directly after the sentinel
         sentinel.next = new Node<>(item, sentinel.next);
         size = size + 1;
     }
@@ -41,6 +42,7 @@ public class SinglyLinkedList<T> implements Iterable<T> {
 
         Node<T> p = sentinel;
 
+        // Traverse to the end of the list
         while (p.next != null) {
             p = p.next;
         }
@@ -55,6 +57,7 @@ public class SinglyLinkedList<T> implements Iterable<T> {
 
         size = size - 1;
 
+        // Retrieve item and bypass the first node
         T data = sentinel.next.item;
         sentinel.next = sentinel.next.next;
 
@@ -66,6 +69,7 @@ public class SinglyLinkedList<T> implements Iterable<T> {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
 
+        // sentinel.next is the actual first element (index 0)
         Node<T> p = sentinel.next;
         for (int i = 0; i < index; i++) {
             p = p.next;
@@ -97,11 +101,13 @@ public class SinglyLinkedList<T> implements Iterable<T> {
         }
 
         Node<T> p = sentinel;
+        // Move p to the node immediately BEFORE the one we want to remove
         for (int i = 0; i < index; i++) {
             p = p.next;
         }
 
         T data = p.next.item;
+        // Remove the node by linking p to the node after the next one
         p.next = p.next.next;
 
         size = size - 1;
@@ -135,11 +141,13 @@ public class SinglyLinkedList<T> implements Iterable<T> {
         };
     }
 
+    // In-place merge sort for the linked list
     public <U extends Comparable<U>> void mergeSort(java.util.function.Function<T,U> keyExtractor) {
         if (size <= 1) {
             return;
         }
 
+        // Sort the list starting from the first actual node and update sentinel.next
         sentinel.next = mergeSortRecursive(sentinel.next, size, keyExtractor);
     }
 
@@ -148,10 +156,12 @@ public class SinglyLinkedList<T> implements Iterable<T> {
             int length,
             java.util.function.Function<T,U> keyExtractor) {
 
+        // Base case: list is empty or has a single element (already sorted)
         if (head == null || length <= 1) {
             return head;
         }
 
+        // Split the list into two halves
         int leftSize = length / 2;
         int rightSize = length - leftSize;
 
@@ -160,9 +170,11 @@ public class SinglyLinkedList<T> implements Iterable<T> {
             leftTail = leftTail.next;
         }
 
+        // Disconnect left half from right half
         Node<T> rightHead = leftTail.next;
         leftTail.next = null;
 
+        // Recursively sort both halves
         Node<T> left = mergeSortRecursive(head, leftSize, keyExtractor);
         Node<T> right = mergeSortRecursive(rightHead, rightSize, keyExtractor);
 
@@ -171,9 +183,11 @@ public class SinglyLinkedList<T> implements Iterable<T> {
 
     private <U extends Comparable<U>> Node<T> merge(Node<T> left, Node<T> right, java.util.function.Function<T,U> keyExtractor) {
 
+        // Temporary dummy node to build the merged list
         Node<T> s = new Node<>(null, null);
         Node<T> current = s;
 
+        // Merge two sorted lists
         while (left != null && right != null) {
             U leftKey = keyExtractor.apply(left.item);
             U rightKey = keyExtractor.apply(right.item);
@@ -188,6 +202,7 @@ public class SinglyLinkedList<T> implements Iterable<T> {
             current = current.next;
         }
 
+        // Attach remaining nodes
         if (left != null) {
             current.next = left;
         }
@@ -195,6 +210,7 @@ public class SinglyLinkedList<T> implements Iterable<T> {
             current.next = right;
         }
 
+        // Return the start of the merged list (skipping the dummy node)
         return s.next;
     }
 }
