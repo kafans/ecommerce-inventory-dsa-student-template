@@ -1,0 +1,30 @@
+
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'edu.template'
+version = '1.0-SNAPSHOT'
+
+repositories { mavenCentral() }
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+}
+
+test { useJUnitPlatform() }
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(17) }
+}
+
+application {
+    mainClass = 'edu.template.inventory.App'
+    applicationDefaultJvmArgs = ['--enable-native-access=ALL-UNNAMED']
+}
+
+tasks.named('run') {
+    standardInput = System.in
+    jvmArgs '--enable-native-access=ALL-UNNAMED'
+}

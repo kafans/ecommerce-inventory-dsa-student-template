@@ -1,0 +1,10 @@
+sku,name,category,price,stock
+SKU-1001,USB-C Cable 1m,Accessories,9.99,50
+SKU-1002,Wireless Mouse,Accessories,19.90,25
+SKU-1003,Mechanical Keyboard,Accessories,79.00,10
+SKU-2001,27-inch Monitor,Displays,179.00,6
+SKU-3001,Laptop Stand,Accessories,29.50,12
+SKU-4001,Webcam 1080p,Cameras,39.90,8
+SKU-5001,NVMe SSD 1TB,Storage,119.00,5
+SKU-6001,Portable HDD 2TB,Storage,89.00,7
+SKU-7001,Desk Lamp,Home,24.90,20
