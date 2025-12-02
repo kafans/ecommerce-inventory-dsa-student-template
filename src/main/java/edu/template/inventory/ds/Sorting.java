@@ -36,8 +36,8 @@ public final class Sorting {
         if (left >= right) return;
 
         int mid = left + (right - left) / 2;
-        mergeSortRecursive(a, left, mid, cmp);          // 左区间 [left, mid]
-        mergeSortRecursive(a, mid + 1, right, cmp); // 右区间 [mid+1, right]
+        mergeSortRecursive(a, left, mid, cmp);          // [left, mid]
+        mergeSortRecursive(a, mid + 1, right, cmp); // [mid+1, right]
         merge(a, left, mid, right, cmp);
     }
 

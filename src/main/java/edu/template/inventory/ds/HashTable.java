@@ -28,7 +28,6 @@ public class HashTable<K,V> {
             newBuckets[i] = new SinglyLinkedList<>();
         }
 
-        // 把旧表中的所有元素重新分配到新表中
         for (SinglyLinkedList<Entry<K,V>> bucket : buckets) {
             for (Entry<K,V> entry : bucket) {
                 int newIndex = ((entry.key.hashCode() & 0xfffffff) % newCapacity);
@@ -36,7 +35,6 @@ public class HashTable<K,V> {
             }
         }
 
-        // 替换 buckets 引用，size 不变
         buckets = newBuckets;
     }
 
